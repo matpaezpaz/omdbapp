@@ -1,39 +1,24 @@
 import React from "react";
+import './style.scss';
 
-const SearchResult = (props) => {
+const SearchResult = ({ Title, Year, imdbID, Type, Poster}) => {
     return (
-        <div class="box">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content">
+        <div className="card movie-card">
+            <div className="card-image">
+                <figure className="image is-4by3 movie-card__figure">
+                    <img src={Poster} alt={ `${Title} poster` } className="movie-card__figure__image"/>
+                </figure>
+            </div>
+            <div className="card-content">
+                <div className="content">
+                    <a href="#!">
                         <h1>
-                            <strong>Movie Title</strong> <small>@johnsmith</small> <small>31m</small>
+                            {Title} <small> - {Year}</small>
                         </h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-                        </p>
-                    </div>
-                    <nav class="level is-mobile">
-                        <div class="level-left">
-                            <a class="level-item" aria-label="reply">
-                                <span class="icon is-small">
-                                    <i class="fas fa-reply" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                            <a class="level-item" aria-label="retweet">
-                                <span class="icon is-small">
-                                    <i class="fas fa-retweet" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                            <a class="level-item" aria-label="like">
-                                <span class="icon is-small">
-                                    <i class="fas fa-heart" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </nav>
+                    </a>
+                    <a href={`https://www.imdb.com/title/${imdbID}/`}>{Title} on IMDb</a>
                 </div>
-            </article>
+            </div>
         </div>
     )
 }

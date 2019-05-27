@@ -1,27 +1,51 @@
 import React from 'react';
 import SearchResult from '../../component/SearchResult';
+import OMDbAPIInstance from '../../services/OMDbAPIService';
+
+
 
 class Search extends React.Component  {
     constructor(props){
         super(props);
         this.state = {
             searchText: "",
-            results: ['asd','asd']
+            results: [],
+            error: ""
         }
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log(event.target.searchText.value);
+    handleSubmit = async (event) => {
+        this.setState({
+            error:""
+        })
+        event.preventDefault();event.stopPropagation();
+        if ( this.state.searchText.length === 0 ) {
+            return;
+        }
+        const { Response, Error : responseError, Search : results} = await OMDbAPIInstance.searchMovieTitle(this.state.searchText);
+        if( Response === 'False' ) {
+            this.setState({
+                error : responseError
+            });
+        }
+        this.setState({
+            results : results
+        });
+    }
+
+    handleChange = (event) => {
+        console.log(event.target.value)
+        this.setState({
+            searchText: event.target.value
+        });
     }
 
     render() {
         let results = [];
         if ( this.state.results ) {
             results = this.state.results.map( (result) => (
-                <div className="column is-10 is-offset-1">
-                    <SearchResult />
+                <div key={result.imdbID} className="column is-one-third-widescreen is-half-tablet">
+                    <SearchResult  {...result} />
                 </div>
             ) );
         }
@@ -36,7 +60,9 @@ class Search extends React.Component  {
                         <div className="field-body">
                             <div className="field">
                                 <div className="control">
-                                    <input className="input is-large" name="searchText" type="text" placeholder="Search movie by name"  />
+                                    <input className="input is-large" value={this.state.searchText} onChange={this.handleChange} 
+                                        name="searchText" type="text" placeholder="Search movie by name"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -45,7 +71,9 @@ class Search extends React.Component  {
                 <div className="section mt-1">
                     <div className="columns">
                         <div className="column is-10 is-offset-1">
-                            {results}
+                            <div className="columns is-multiline">
+                                {this.state.error.length > 0?`Error: ${this.state.error}`:results}
+                            </div>
                         </div>
                     </div>
                 </div>
