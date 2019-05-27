@@ -1,12 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const Navbar = () => {
     return (
         <nav className="navbar is-link" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <a href="#!" className="navbar-item" href="https://bulma.io">
+                <Link to='/' className="navbar-item">
                     OMDbApp
-                </a>
+                </Link>
 
                 <a href="#!" role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>

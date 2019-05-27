@@ -34,7 +34,6 @@ class Search extends React.Component  {
     }
 
     handleChange = (event) => {
-        console.log(event.target.value)
         this.setState({
             searchText: event.target.value
         });
